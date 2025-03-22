@@ -227,6 +227,18 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/', 'AbsenceController@store')->name('absence.store');
         Route::delete('/{absence}', 'AbsenceController@destroy')->name('absence.destroy');
     });
+
+    /**
+     * CSV Import
+     */
+    Route::group(['prefix' => 'csv', 'middleware' => ['auth']], function () {
+        Route::get('/', 'CsvImportController@showImportForm');
+        Route::post('/analyze', 'CsvImportController@analyzeFile');
+        Route::post('/', 'CsvImportController@import')->name('csv.import');
+        Route::post('/truncate', 'CsvImportController@truncateTable');
+        Route::post('/truncate-all', 'CsvImportController@truncateAllTables');
+    });
+
 });
 
 Route::group(['middleware' => ['auth']], function () {
